@@ -48,7 +48,7 @@ public class WebSecurityConfig {
                         .requestMatchers(PERMIT_LIST).permitAll().anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
-                        .defaultSuccessUrl("/"))
+                        .defaultSuccessUrl("/", true))
                 .logout(logout -> logout
                         .logoutSuccessUrl("/").invalidateHttpSession(true))
                 .csrf(AbstractHttpConfigurer::disable);
