@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1 {
+            background-color: #3498db;
+            color: #fff;
+            padding: 20px;
+        }
+
+        form {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .error {
+            color: #f00; /* 빨간색으로 에러 메시지 표시 */
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>회원가입</h1>
+<form th:action="@{/user}" method="post" onsubmit="return validateForm()">
+    <label for="email">이메일:</label>
+    <input type="text" id="email" name="email" required>
+    <br>
+    <span class="error" id="emailError"></span> <!-- 이메일 에러 메시지 표시 위치 -->
+    <span class="error" th:if="${emailExistsError}" th:text="${emailExistsError}"></span> <!-- 중복 이메일 에러 메시지 표시 위치 -->
+
+    <label for="password">비밀번호:</label>
+    <input type="password" id="password" name="password" required>
+    <br>
+    <span class="error" id="passwordError"></span> <!-- 비밀번호 에러 메시지 표시 위치 -->
+
+    <label for="username">사용자 이름:</label>
+    <input type="text" id="username" name="username" required>
+    <br>
+    <span class="error" id="usernameError"></span> <!-- 사용자 이름 에러 메시지 표시 위치 -->
+
+    <button type="submit">가입</button>
+</form>
+<script type="text/javascript">
+    function validateForm() {
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var username = document.getElementById("username").value;
+        var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        var valid = true; // 유효성 검사 결과를 나타내는 변수
+
+        if (!emailPattern.test(email)) {
+            document.getElementById("emailError").innerText = "올바른 이메일 형식이 아닙니다.";
+            valid = false;
+        } else {
+            document.getElementById("emailError").innerText = "";
+        }
+
+        if (password.length < 6) {
+            document.getElementById("passwordError").innerText = "비밀번호는 6자 이상이어야 합니다.";
+            valid = false;
+        } else {
+            document.getElementById("passwordError").innerText = "";
+        }
+
+        if (username.length < 3) {
+            document.getElementById("usernameError").innerText = "사용자 이름은 3자 이상이어야 합니다.";
+            valid = false;
+        } else {
+            document.getElementById("usernameError").innerText = "";
+        }
+
+        return valid;
+    }
+</script>
+</body>
+</html>

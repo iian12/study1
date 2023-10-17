@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SocialNest</title>
+    <meta charset="UTF-8">
+    <!-- Bootstrap CSS 추가 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-5 mb-4">게시글 목록</h1>
+    <div th:if="${loggedInUsername != null}">
+        <p th:text="'안녕하세요, ' + ${loggedInUsername} + '님!'"></p>
+        <!-- 로그아웃 링크 -->
+        <a class="btn btn-danger" th:href="@{/logout}">로그아웃</a>
+    </div>
+    <div th:unless="${loggedInUsername != null}">
+        <!-- 로그인 버튼 -->
+        <a class="btn btn-success mt-2" th:href="@{/login}">로그인</a>
+        <!-- 회원가입 버튼 -->
+        <a class="btn btn-info mt-2" th:href="@{/signup}">회원가입</a>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>제목</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="article : ${articles}">
+            <td>
+                <a th:href="@{'/article/' + ${article.id}}">
+                    <span th:text="${article.title}"></span>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-primary" th:href="@{/add-article}">게시글 등록</a>
+</div>
+</body>
+</html>

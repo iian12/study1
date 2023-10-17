@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko"></html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>게시글 등록</title>
+    <meta charset="UTF-8">
+    <!-- Bootstrap CSS 추가 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-5 mb-4">게시글 등록</h1>
+    <form id="addArticleForm">
+        <div class="form-group">
+            <label for="title">제목</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="content">내용</label>
+            <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+        </div>
+        <button type="button" class="btn btn-primary" id="submitButton">등록</button>
+    </form>
+    <a class="btn btn-secondary mt-3" th:href="@{/}">게시글 목록으로 돌아가기</a>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const submitButton = document.getElementById('submitButton');
+        const titleInput = document.getElementById('title');
+        const contentInput = document.getElementById('content');
+
+        submitButton.addEventListener('click', function() {
+            const formData = {
+                title: titleInput.value,
+                content: contentInput.value
+            };
+
+            fetch('/api/articles', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 등록 성공 시 처리
+                alert('게시글이 등록되었습니다.');
+                // 페이지 1로 리디렉션
+                window.location.href = '/';
+            })
+            .catch(error => {
+                // 오류 발생 시 처리
+                alert('게시글 등록 중 오류가 발생했습니다.');
+            });
+        });
+    });
+</script>
+</body>
+</html>
+
